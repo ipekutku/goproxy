@@ -18,10 +18,10 @@ func headerContains(header http.Header, name string, value string) bool {
 	return false
 }
 
-func isWebSocketRequest(r *http.Request) bool {
-	return headerContains(r.Header, "Connection", "upgrade") &&
-		(headerContains(r.Header, "Upgrade", "websocket") ||
-			headerContains(r.Header, "Upgrade", "SPDY/3.1"))
+func isWebSocketHandshake(header http.Header) bool {
+	return headerContains(header, "Connection", "upgrade") &&
+		(headerContains(header, "Upgrade", "websocket") ||
+			headerContains(header, "Upgrade", "SPDY/3.1"))
 }
 
 func (proxy *ProxyHttpServer) hijackConnection(ctx *ProxyCtx, w http.ResponseWriter) (net.Conn, error) {
